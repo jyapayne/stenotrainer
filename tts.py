@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import argparse
+import os
 import io
 import logging
 import threading
@@ -117,14 +118,16 @@ def create_mimic3_system(
     return mimic3
 
 def play_wav_bytes(wav_bytes: bytes):
-    with tempfile.NamedTemporaryFile(mode="wb+", suffix=".wav") as wav_file:
-        wav_file.write(wav_bytes)
-        wav_file.seek(0)
+    wav_file = tempfile.NamedTemporaryFile(mode="wb+", suffix=".wav", delete=False)
+    wav_file.write(wav_bytes)
+    wav_file.seek(0)
+    wav_file.close()
 
-        filename = wav_file.name
-        wave_obj = sa.WaveObject.from_wave_file(filename)
-        play_obj = wave_obj.play()
-        play_obj.wait_done()
+    filename = wav_file.name
+    wave_obj = sa.WaveObject.from_wave_file(filename)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
+    os.unlink(filename)
 
 def say_words(words: str, mimic3: Mimic3TextToSpeechSystem, length_scale: float = None, ssml=False):
     """Thread handler for synthesis requests"""

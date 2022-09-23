@@ -1,0 +1,3 @@
+simpleaudio
+git+https://github.com/jyapayne/espeak-phonemizer
+git+https://github.com/jyapayne/mimic3
