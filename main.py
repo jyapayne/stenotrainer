@@ -4,7 +4,7 @@ from time import sleep
 from tts import create_mimic3_system, say_words
 
 def main():
-    mimic3 = create_mimic3_system(voice="en_US/vctk_low", preload_voices=["en_US/vctk_low"], rate=1)
+    mimic3 = create_mimic3_system(voice="en_UK/apope_low", preload_voices=["en_UK/apope_low"], rate=1)
     steno_data: dict = {}
     reverse_dict = defaultdict(set)
 
@@ -48,7 +48,7 @@ def main():
 
     speech = """
         <speak>
-            <voice name="en_US/vctk_low">
+            <voice name="en_UK/apope_low">
                 <prosody rate="0.6">""" + "<break time='1s'/>".join(ssml_data) + """
                 </prosody>
             </voice>
